@@ -7,42 +7,42 @@
         
             {
                 name: 'Warm Up',
-                color: '#123aab',
+                color: '#a6a1a1',
                 duration: 5 * 60000
             },
             {
                 name: 'Hign Intensity',
-                color: '#123aab',
+                color: '#1dcf1d',
                 duration: 3 * 60000
             },
             {
                 name: 'Low Intensity',
-                color: '#123aab',
+                color: '#ed1b0c',
                 duration: 4 * 60000 
             },
             {
                 name: 'Hign Intensity',
-                color: '#123aab',
+                color: '#1dcf1d',
                 duration: 3 * 60000
             },
             {
                 name: 'Low Intensity',
-                color: '#123aab',
+                color: '#ed1b0c',
                 duration: 4 * 60000 
             },
             {
                 name: 'Hign Intensity',
-                color: '#123aab',
+                color: '#1dcf1d',
                 duration: 3 * 60000
             },
             {
                 name: 'Low Intensity',
-                color: '#123aab',
+                color: '#ed1b0c',
                 duration: 4 * 60000 
             },
             {
                 name: 'Cool Down',
-                color: '#123aab',
+                color: '#9de7f2',
                 duration: 2 * 60000 
             }
             
@@ -67,6 +67,8 @@
         
         return `${hours}:${mStr}:${sStr}`
     }
+
+      //  🔒
 
 </script>
 
@@ -103,14 +105,16 @@
     .timers-container {
         flex: 3;
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+      
         padding: 0;
         margin: 0;
-
-        
+        overflow-y: scroll; 
+    }
+    .timer {
+        height: 50%;
+        flex: 1;
+        border-radius: 8px;
+        margin: 0;
     }
     nav {
         flex: .5 ;
@@ -120,6 +124,16 @@
         margin: 0;
 
     }
+    .time-interval--info>figcaption {
+       text-transform: uppercase;
+       font-size: x-small;
+       margin:0;
+    }
+    .time-interval--info>span {
+        font-weight: 700;
+        font-size: 1.3em;
+    }
+  
 </style>
 
 
@@ -128,34 +142,35 @@
       5:00
    </div>
    <div class="time-remaining">
-       <div>
-        <div>elapsed</div>
-        <div>{prettyTime(elapsed)}</div>
-       </div>
+       <figure class="time-interval--info">
+        <figcaption>elapsed</figcaption>
+       <span>{prettyTime(elapsed)}</span>
+       </figure>
        
-       <div>
-        <div>interval</div>
-        <div>{`${currentInterval}/${timers.timers?.length}`}</div>
-       </div>
-       <div>
-           <div>remaining</div>
-           <div>{prettyTime(timers.duration - remaining)}</div>
-       </div>
+       <figure class="time-interval--info">
+        <figcaption>interval</figcaption>
+        <span>{`${currentInterval}/${timers.timers?.length}`}</span>
+       </figure>
+       <figure class="time-interval--info">
+           <figcaption>remaining</figcaption>
+           <span>{prettyTime(timers.duration - remaining)}</span>
+       </figure>
       
    </div>
    <div class="timers-container">
-       <div class="timer">
-           currnt interval
-           Warn Up
-           5:00
-       </div>
-       <div class="timer">
-        up next
-        High Intensity
-       4:00
-    </div>
+      {#each timers.timers as timer, idx }
+        <div class="timer" style="background-color: {timer.color}">
+            {#if idx === currentInterval}
+                <div>current interval</div>
+            {:else if idx === currentInterval + 1}
+                <div>up next</div>
+            {/if}
+            <div>{timer.name}</div>
+            <div>{prettyTime(timer.duration)}</div>
+        </div>
+      {/each}
    </div>
    <nav>
-       close lock restart play
+    ✖ 🔓  ⟳ ► 
    </nav>
 </main>
